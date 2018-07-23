@@ -443,7 +443,7 @@ We will use `jupyter/datascience-notebook`.
 TK
 
 ## Diagram: My Docker Client-Host Setup
-![My Docker Client-Host Setup](./images/docker system diagram.jpg)
+![My Docker Client-Host Setup](./images/docker_system_diagram.jpg)
 
 
 
