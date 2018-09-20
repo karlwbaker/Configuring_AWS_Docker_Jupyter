@@ -42,7 +42,9 @@
 
 ### 4. Jupyter notebook 
 #### Jupyter security concerns
- - ???
+
+- A Python kernel running on a Jupyter notebook server is able to run arbitrary code on your server as in it could change root permissions on the system. 
+- It is worth noting that you are running the server in a Docker container so it is isolated from your main system. This means that if someone was to gain access to the Jupyter server they would only be able to do damage to the docker container. 
 
 ### 5. Diagram: My Docker Client-Host Setup
 
@@ -102,7 +104,7 @@ karls@DESKTOP-VAQRJL8 MINGW64 ~
 $ mkdir -p .ssh
 ```
  - `-p` stands for "parents", telling mkdir to create a directory and any parent directories that don't already exist
- - **DOES IT ALSO suppress the error that would be raised if the dir already existed.*** ???
+ - **DOES IT ALSO suppress the error that would be raised if the dir already existed.*** **YES, it does**
   - ISN'T THAT LETTING AN ERROR PASS SILENTLY??? DON'T WE WANT ERRORS TO BE NOISY/LOUD???
 
 1. Enter `ssh-keygen` to generate a public/private rsa key pair:
@@ -136,7 +138,7 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-1. Enter `ls -a` to list (a)ll files and folders in the home dir: **-a MEANS ALL???**
+1. Enter `ls -a` to list (a)ll files and folders in the home dir: **-a MEANS ALL??? Yes.**
 ```
 karls@DESKTOP-VAQRJL8 MINGW64 ~
 $ ls -a
@@ -203,14 +205,14 @@ $ ls ~/Desktop/
 1. Select **SSH and GPG keys**.
 1. Press the **New SSH Key** button.
 1. Paste the contents of the clipboard into the **Key** cell, then press the **Add SSH Key** button.
-1. **IS THERE A STEP HERE TO LOOK AT GITHUB TO MAKE SURE THIS STEP WORKED???**
+1. **IS THERE A STEP HERE TO LOOK AT GITHUB TO MAKE SURE THIS STEP WORKED??? Sure, you can just go to Github.com**
 
 ### These steps are done in git bash:
 
 1. Add github to the `.ssh` list of known hosts:
 
  - This step is also known as "authenticating" XXX ???
-  - IS THIS COMMAND ALSO ATTEMPTING TO GET SHELL ACCESS FROM GITHUB? (GH outputs below that it does not give shell access.) WHAT DOES THAT MEAN???
+  - IS THIS COMMAND ALSO ATTEMPTING TO GET SHELL ACCESS FROM GITHUB? (GH outputs below that it does not give shell access.) WHAT DOES THAT MEAN??? `ssh user@ip` is the syntax for requesting shell access. Github also uses ssh to pass files back and forth. Rather than testing the ssh configuration by pushing files, this is an alternative to verify the ssh configuration, but it is then ultimately rejected once the configuration is confirmed.
  - `"authenticity of host 'github.com (192.30.253.113)' can't be established."`
   - Type `yes <Enter>` to confirm that you want to continue connecting.
  - Outputs:
