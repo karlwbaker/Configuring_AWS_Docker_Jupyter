@@ -422,9 +422,7 @@ TK: image of the relationship of these in images folder
 TK
 
 ## Diagram: My Docker Client-Host Setup
-![My Docker Client-Host Setup](./images/docker system diagram.jpg)
-
-
+![My Docker Client-Host Setup](./images/docker_system_diagram.jpg)
 
 ## Budget
 
