@@ -12,26 +12,24 @@
 1. Diagram of system
 1. Pro forma budget to run this system for 3 months
 
-
-## Expanded Summary of contents:
+## Expanded Summary of Contents:
 ### 1. Create SSH keys on local machine
 
- - Purpose: The ssh will allow me to use my local machine to securely connect to other machines via the Web.
- - `ssh` stands for "secure shell"
- - ssh key pair: id_rsa (a private key) and id_rsa.pub (a public key)
+ - Purpose: `ssh` (**s**ecure **sh**ell) will allow me to use my local machine to securely connect to other machines via the Web.
+ - `ssh` key pair: `id_rsa` (a private key) and `id_rsa.pub` (a public key)
 
 ### 2. Set up a virtual machine on AWS (Amazon Web Services)
- - What it is: An AWS EC2 machine is a virtual machine that I can connect to via the Internet and use via git bash and/or a browser on my local machine.
+ - What it is: An AWS EC2 machine is a virtual machine (VM) that I can connect to via the Internet and use via git bash and/or a browser on my local machine.
  - Purpose: The cloud machine will allow me to:
   - Configure and use an operating system (e.g., Linux) that differs from my local machine
-  - Access hardware that may perform better than and exceed what I have on my laptop
-  - Install and use software without having to load it on my own laptop
-  - Keep a jupyter notebook running full-time on the VM even when I shut down my laptop ???
+  - Access hardware that may perform better than and exceed what I have on my local machine
+  - Install and use software without having to load it on my own machine
+  - Keep a jupyter notebook running full-time on the VM even when I shut down my local machine
  - EC2 (i.e., ECC, stands for "elastic computing cloud")
  - Configure security for the EC2 machine
 
 ### 3. Install Docker 
- - What it is: Docker is an improvement on the implementation of virtual machines that allows me to run a trimmed down version of any OS in a "container" on a box of any type (Linux, MacOS, Windows)
+ - What it is: Docker is container that contains preconfigured operating systems and software. It is considered an improvement on older implementations of virtual machines. Docker allows me to run a trimmed down version of any OS in a "container" on a box of any type (Linux, MacOS, Windows). I can do this locally, on my own machine, or on a cloud machine such as an EC2 instance on AWS.
  - Purpose: Docker will allow me to build applications on any system (hardware & OS) that runs docker, and have those applications run exactly the same way on any other system that runs docker.
 
 #### Docker Installation
@@ -42,24 +40,24 @@
 
 ### 4. Jupyter notebook 
 #### Jupyter security concerns
- - ???
 
 ### 5. Diagram: My Docker Client-Host Setup
 
 ### 7. Budget
- - Detailed budget of the costs of running a Jupyter Data Science Notebook Server for three months using at least three different kinds of EC 2 instances
+ - Detailed budget of the costs of running a Jupyter Data Science Notebook Server for three months using different kinds of EC 2 instances.
 
 ## Step-by-step instructions
 
 ### Begin on your local machine (Windows, MacOS, Linux):
-1. Launch Git Bash (MinGW-W64 on Dell laptop)
+1. Launch Git Bash (I use MinGW-W64)
+ - Trivia: MinGW stands for **Min**imalist **G**NU for **W**indows.
 
 Different methods to launch:
  - Start | Git Bash icon
  - Start | MinGW-W64 Project | Run Terminal
  - Cortana Search Box "git" | Git Bash
-  - You may notice that initially the window that comes up has "CMD.EXE" in the title bar; this is quickly replaced by "MinGW-W64"
- -  Cortana Search Box "ming" | Run Terminal
+  - You may notice that initially the command window that opens has "CMD.EXE" in the title bar; this is quickly replaced by "MinGW-W64"
+ - Cortana Search Box "ming" | Run Terminal
  - Launch `mingw-w64.bat` from the `C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\` folder
   - NO, THIS LAUNCHES "CMD.EXE" FOR SOME REASON
    - `C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0>echo off C/WINDOWS/SYSTEM32/CMD.EXE`
@@ -73,12 +71,13 @@ Different methods to launch:
    cd "C:\"
    "C:\WINDOWS\system32\cmd.exe"
    ```
+With all these options, hopefully you found a way to launch a command prompt.
 
 ### Next steps in git bash:
 
 1. At the prompt, enter `pwd` to print the working directory:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ pwd
 /c/Users/karls
 ```
@@ -91,19 +90,14 @@ ls: cannot access '/c/Users/karls/.ssh': No such file or directory
 ```  
  - The output above indicates that .ssh does not exist.
  - **IMPORTANT: If .ssh already exists, DO NOT create a new one** as this can cause problems.
-  - **What problems???**
-  - If .ssh already exists, use one of the key pairs that already exist in it. 
-   - Should there only be one pair???
-   - If there can be multiple pairs, then what is the problem with created a new one???
+  - If `.ssh` already exists, use one of the key pairs that already exist in it. 
 
 1. If the .ssh directory does not already exist, create it:
 ```
 karls@DESKTOP-VAQRJL8 MINGW64 ~
 $ mkdir -p .ssh
 ```
- - `-p` stands for "parents", telling mkdir to create a directory and any parent directories that don't already exist
- - **DOES IT ALSO suppress the error that would be raised if the dir already existed.*** ???
-  - ISN'T THAT LETTING AN ERROR PASS SILENTLY??? DON'T WE WANT ERRORS TO BE NOISY/LOUD???
+ - `-p` stands for "parents," telling `mkdir` to create a directory and any parent directories that don't already exist
 
 1. Enter `ssh-keygen` to generate a public/private rsa key pair:
 ```
@@ -136,7 +130,7 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-1. Enter `ls -a` to list (a)ll files and folders in the home dir: **-a MEANS ALL???**
+1. Enter `ls -a` to list (a)ll files and folders in the home dir:
 ```
 karls@DESKTOP-VAQRJL8 MINGW64 ~
 $ ls -a
@@ -147,7 +141,7 @@ $ ls -a
  .ipython/
  .jupyter/
  .matplotlib/
- .ssh/          # we're confirming that this folder was created
+ .ssh/          # we're confirming that **this** folder was created
  Desktop/
  Documents/
  github/
@@ -174,7 +168,7 @@ dsubSi1ocABqdy0QxA1KFFRIOqa0G3n4ipapTzEyGj580zNz8avJuBgRKL+xWWrAXKQPbXwxZuUoOjW4
 ```
 
 1. Enter `cp ~/.ssh/id_rsa.pub ~/Desktop/` to make a copy of the key file and save it to the Desktop
- - Syntax: `<command> <home/path/filename to copy> <location to copy to>`
+ - Syntax: `<command> <home/path/filename_to_copy> <location_to_copy_to>`
 ```
 karls@DESKTOP-VAQRJL8 MINGW64 ~
 $ cp ~/.ssh/id_rsa.pub ~/Desktop/
@@ -190,7 +184,7 @@ $ ls ~/Desktop/
 'chapter 3 - Shortcut.lnk'*     Kindle.lnk*   'Steps Recorder.lnk'*
 'Chapters - Shortcut.lnk'*      Magnify.lnk*   Store.lnk*
 ```
- - We can see that the file was copied as expected.
+ - We can see that the `id_rsa.pub` file was copied as expected.
 1. Copy the text of id_rsa.pub from the output of `cat ~/.ssh/id_rsa.pub` (completed a few steps back) to the clipboard:
  - Be sure to select the entire output of the `cat ~/.ssh/id_rsa.pub` command above
   - Selection must include `"ssh-rsa "` with space at beginning and `" karls@DESKTOP-VAQRJL8"` at end
@@ -203,31 +197,22 @@ $ ls ~/Desktop/
 1. Select **SSH and GPG keys**.
 1. Press the **New SSH Key** button.
 1. Paste the contents of the clipboard into the **Key** cell, then press the **Add SSH Key** button.
-1. **IS THERE A STEP HERE TO LOOK AT GITHUB TO MAKE SURE THIS STEP WORKED???**
 
-### These steps are done in git bash:
+### These steps are done in git bash on your local machine:
 
 1. Add github to the `.ssh` list of known hosts:
-
- - This step is also known as "authenticating" XXX ???
-  - IS THIS COMMAND ALSO ATTEMPTING TO GET SHELL ACCESS FROM GITHUB? (GH outputs below that it does not give shell access.) WHAT DOES THAT MEAN???
- - `"authenticity of host 'github.com (192.30.253.113)' can't be established."`
   - Type `yes <Enter>` to confirm that you want to continue connecting.
- - Outputs:
-  - `"Warning: Permanently added 'github.com ..."` is OK.
-  - `"PTY allocation request failed on channel 0"` means XXX ???
-  - `"GitHub does not provide shell access. Connection to github.com closed."` is OK.
 
 ```
 karls@DESKTOP-VAQRJL8 MINGW64 ~
 $ ssh git@github.com
 The authenticity of host 'github.com (192.30.253.113)' can't be established.
-RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+RSA key fingerprint is SHA256:1RLviKwIGOCspRomTxdCA6E5SY8nThbg6kXUpJWGl7E.
 Are you sure you want to continue connecting (yes/no)? y
 Please type 'yes' or 'no': yes
 Warning: Permanently added 'github.com,192.30.253.113' (RSA) to the list of known hosts.
 PTY allocation request failed on channel 0
-Hi neigedoi! You've successfully authenticated, but GitHub c.
+Hi <name>! You've successfully authenticated, but GitHub c.
 Connection to github.com closed.
 ```
 
@@ -241,7 +226,7 @@ Show ouptuput of this command.
 ## Set up machine on AWS
 ### These steps are done on aws.com:
 
-1. Log in to account on AWS.com.
+1. Log in to your account on AWS.com.
 1. Click on the **Services** tab and select **EC2**.
 1. Press **Key Pair**, then press **Import Key Pair**.
 #### Set up security protocols
@@ -259,10 +244,9 @@ Show ouptuput of this command.
  - We will run Jupyter on port 443.
 - PostgreSQL: Port: **5432**, Source: **Anywhere**
 - Custom TCP: Port: **27016**, Source: **Anywhere**
- - We will run the Mongo DB server on 27016.
+ - We will run the MongoDB server on 27016.
  - This will be machine-to-machine communication between jupyter and mongo.
- - This port number is one less than 27017 which has **WHAT SIGNIFICANCE???** 
-  - SOMEHOW WE WOULD HAVE MORE HACKING ATTEMPTS ON 27017.???
+ - Tip: This port number is one less than the typical 27017 port used for MongoDB. Setting is to 27016 may help reduce the number of malicious hits you experience on your server.
  - NOTE: We can specify what port to use by appending `:port_number` to the end of a URL
   - E.g., `github.com:80`
 1. From the EC2 Dashboard, select **Instances** (may be **Running Instances**).
@@ -283,12 +267,12 @@ Show ouptuput of this command.
 1. Find the instance you just created and give it a name; e.g., UCLA_DS_class.
 1. Select the checkbox at the beginning of the line, then scroll down the page and copy the instance's **public IPv4** address to the clipboard.
 
-## CONNECT AWS MACHINE TO GIT BASH???
+## CONNECT AWS MACHINE TO GIT BASH
 ### These steps are done in git bash:
-1. At the prompt, type `ssh ubuntu@`_`<ip>`_, pasting in the IP address from the clipboard in place of _`<ip>`_:
+1. At the prompt, type `ssh ubuntu@`_`<ip>`_, pasting in the IP address that you saved to the clipboard in place of _`<ip>`_:
 ```
 karls@DESKTOP-VAQRJL8 MINGW64 ~
-$ ssh ubuntu@18.188.45.167
+$ ssh ubuntu@12.345.67.890
 ```
 
  - Press `<Enter>` and type "yes" and press Enter at the Are you sure prompt.
@@ -325,34 +309,36 @@ Notice that we are now at a NEW bash prompt: **ubuntu@ip-172-31-25-201:~$**
 
 ## Install and Configure Docker 
 ### These steps are done in git bash:
+** - Note: Generally piping straight into `sh` is bad practice security-wise, especially if we do not know or trust the shell script. In this case, I trust docker and am willing to use this shortcut, but you should decide for yourself whether you want to do this or find another more secure way to run the docker script.**
+
 1. Run the Docker shell script to **install the docker engine**:
 ```
 curl -sSL https://get.docker.com | sh
 ```
 
  - `https://get.docker.com` is a shell script
- - The shell script is piped into the sh(ell) program so it will be run immediately
+ - The shell script is piped ("`|`") into the `sh`(ell) program so it will be run immediately
   - Before running the `curl` command we can view the contents of `get.docker.com` to confirm that it is a shell script by opening the URL in a browser
   - Its first line, `#!/bin/sh` (hash bang, `#!`, pronounced "shebang"), confirms it is a shell script
- - PIPING STRAIGHT INTO SH IS BAD PRACTICE SECURITY-WISE, ESP IF WE DO NOT KNOW OR TRUST THE SHELL SCRIPT.
- - JOSH ASSURES US IT IS SAFE AND OK IN THIS CASE, AND MUCH FASTER THAN THE ALTERNATIVE.
- - I'D LIKE TO LEARN THE SAFE, KOSHER PROCESS TOO.
+
 
 2) Add our ubuntu server on the AWS EC2 machine to the docker user group
 ```
 sudo usermod -aG docker ubuntu
 ```
- - `-a` ???
- - `-G` ???
 
-3) Disconnect from ubuntu: Ctrl-D or exit.
+3) Disconnect from ubuntu:   
+```
+Press "Ctrl-D" or type "exit"
+```
+
 4) Reconnect:
 ```
 ssh ubuntu@18.188.45.167
 ```
 
 5) Launch `tmux`.
- - `tmux` stands for "terminal multiplexer." It is a more stable shell than sh. In general we won't need to use tmux, but here we used it bc we were proceeding slowly and sometimes sh dies silently when left sitting too long.
+ - `tmux` stands for "terminal multiplexer." It is a more stable shell than sh. In general we won't need to use tmux, but here we used it because we were proceeding slowly and sometimes sh dies silently when left sitting too long.
 ```
 tmux
 ```
@@ -371,21 +357,13 @@ docker run -d \
 -v /home/ubuntu:/home/jovyan \
 jupyter/datascience-notebook
 ```
- - `-d` **d**etached mode but 
-  -**what does that mean again and why do we want to be in detached mode??? detached from what?**
-  -  is it docker that is detached ("docker run in -d mode")? or is it jupyter("docker run a detached jupyter")?
- - `-p` create **p**arents???, SUPPRESS ERRORS??? **p**ort???
- - `443:8888` : This command attaches port 8888 from the docker container to port 443 on our host. 
-  - Our host is the EC2 ubuntu machine ???
-  - What exactly is a "port"? Analogous to a CB radio channel?
- - `-v` means "mounting a **v**olume". "Mounting" suggests that one is on top, or otherwise "in control." Which is "in control"???
- - `/home/ubuntu:/home/jovyan` This command also attaches `/home/ubuntu` on the host to `/home/jovyan` in the container. 
-  -**So _inside_ the container is a trimmed down version of ubuntu that has this `jovyan` directory???** 
-  - After this command, will these 2 folders have the same contents? Or will they sync any files that they have in common? Or will only jovyan send files to ubuntu?
-  - Did we ALREADY HAVE AN UBUNTU DIR on the EC2 VM AND A JOVYAN DIR on the XXX in the docker container? Or did this command create one or both?
- - DOES THIS command spawn the NEW JUPYTER PAGE???
- - does this return the docker container ID?
+ - `-d` **d**etached mode 
+ - `-p` 
+ - `443:8888` This command attaches port 8888 from the docker container to port 443 on our host. 
+ - `-v` means "mounting a **v**olume".
+ - `/home/ubuntu:/home/jovyan` This command attaches `/home/ubuntu` on the EC2 host to `/home/jovyan` in the docker container. 
 
+TK  
 Additional notes:
  - docker ps
  - docker stop jovyal XXX # kill
@@ -397,15 +375,17 @@ Additional notes:
 ### Next steps in Web browser:
 
 1. To configure the Jupyter page so we can use it:
- - From AWS account, copy the public ip address to clipboard as before. Append `443` to the end.
- - e.g., `192.88.78.68:443`
- - **In github, copy token = ???**
+ - From AWS account, copy the public ip address to clipboard as before. Append `:443` to the end; e.g., `192.88.78.68:443`
  - Paste into **Password or Token** textbox on jupyter page.
 1. Test jupyter by creating a new notebook and saving it.
  - It should appear in the jupyter file list.
 1. In bash, run `ls` to see the file there also.
+
+### You're ready to use your EC2 machine!
+
+### When you are finished using your EC2 machine, be sure to terminate the instance
+If you don't you may run up unnecessary charges on your AWS bill! Even though we set up a free instance, if we set up too many and ran them for too many hours we would use up the free hours and start to incur charges.
 1. In AWS, terminate the machine instance.
- - TERMINATING WAS ONLY THE FIRST TIME, SO WE COULD DO IT ALL AGAIN FOR PRACTICE???
  - Select **Instance**, **Actions** button, **Instance State**, **Terminate**.
 
 ### How to create an alias in bash
@@ -430,9 +410,8 @@ Using one of the **Jupyter Docker Stacks** requires two choices:
  - jupyter/pyspark-notebook includes Python support for Apache Spark, optionally on Mesos.
  - jupyter/all-spark-notebook includes Python, R, and Scala support for Apache Spark, optionally on Mesos.
 
-image of the relationship of these in images folder
+TK: image of the relationship of these in images folder
 
-We will use `jupyter/datascience-notebook`.
 
 ### Running the correct Docker image as a container
  - See above step by step instructions
@@ -443,7 +422,7 @@ We will use `jupyter/datascience-notebook`.
 TK
 
 ## Diagram: My Docker Client-Host Setup
-![My Docker Client-Host Setup](./images/docker_system_diagram.jpg)
+![My Docker Client-Host Setup](./images/docker system diagram.jpg)
 
 
 
