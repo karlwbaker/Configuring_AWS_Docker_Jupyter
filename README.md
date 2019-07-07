@@ -1,77 +1,56 @@
 
-# How to Configure a Jupyter Datascience Notebook Server on Amazon Web Services
+# How to Configure a Jupyter Datascience Notebook Server on Amazon Web Services using Docker
  - Detailed outline and explanation of every step
   - Who does what, when, where and why
- - Submitted as a README.md in a Github Repository
 
-## Summary of contents:
+## Short Summary of Contents:
 1. Use git bash to create SSH keys on local machine
-1. Set up an EC2 machine on Amazon Web Services
-1. Install and configure Docker on the EC2 machine
-1. Install Jupyter notebook
-1. Diagram of system
-1. Pro forma budget to run this system for 3 months
+2. Set up an EC2 machine on Amazon Web Services
+3. Install and configure Docker on the EC2 machine
+4. Install Jupyter notebook
+5. Diagram of system
+6. Pro forma budget to run this system for 3 months
+
+***
 
 ## Expanded Summary of Contents:
 ### 1. Create SSH keys on local machine
-
- - Purpose: `ssh` (**s**ecure **sh**ell) will allow me to use my local machine to securely connect to other machines via the Web.
+ - Purpose: `ssh` (**s**ecure **sh**ell) will allow you to use your local machine to securely connect to other machines via the Web.
  - `ssh` key pair: `id_rsa` (a private key) and `id_rsa.pub` (a public key)
 
 ### 2. Set up a virtual machine on AWS (Amazon Web Services)
- - What it is: An AWS EC2 machine is a virtual machine (VM) that I can connect to via the Internet and use via git bash and/or a browser on my local machine.
- - Purpose: The cloud machine will allow me to:
-  - Configure and use an operating system (e.g., Linux) that differs from my local machine
-  - Access hardware that may perform better than and exceed what I have on my local machine
-  - Install and use software without having to load it on my own machine
-  - Keep a jupyter notebook running full-time on the VM even when I shut down my local machine
- - EC2 (i.e., ECC, stands for "elastic computing cloud")
- - Configure security for the EC2 machine
+ - What it is: An AWS EC2 machine is a "virtual machine" in the cloud that you can connect to via the Internet and use via git bash in a browser on your local machine.
+  - EC2 (i.e., ECC, stands for "elastic computing cloud")
+ - Purpose: The cloud machine will allow you to:
+  - Configure and use an operating system (e.g., Linux) that differs from your local machine
+  - Access hardware that may perform better than and exceed what you have on your local machine
+  - Install and use software without having to load it on your own machine
+  - Keep a jupyter notebook running full-time on the VM even when you shut down your local machine
+  - Configure security for the EC2 machine
 
 ### 3. Install Docker 
- - What it is: Docker is container that contains preconfigured operating systems and software. It is considered an improvement on older implementations of virtual machines. Docker allows me to run a trimmed down version of any OS in a "container" on a box of any type (Linux, MacOS, Windows). I can do this locally, on my own machine, or on a cloud machine such as an EC2 instance on AWS.
- - Purpose: Docker will allow me to build applications on any system (hardware & OS) that runs docker, and have those applications run exactly the same way on any other system that runs docker.
+ - What it is: Docker provides "containers" that contain preconfigured operating systems and software. It is considered an improvement on older implementations of virtual machines. Docker allows you to run a trimmed down version of any OS in a "container" on a box of any type (Linux, MacOS, Windows). Using Docker you can do this locally, on your own machine, or on a cloud machine such as an EC2 instance on AWS.
+ - Purpose: Docker will allow you to build applications on any system (hardware & OS) and have those applications run exactly the same way on any other system that runs Docker.
 
 #### Docker Installation
-
 #### Obtaining the correct Docker image
-
 #### Running the correct Docker image as a container
 
 ### 4. Jupyter notebook 
 #### Jupyter security concerns
 
-### 5. Diagram: My Docker Client-Host Setup
+### 5. Diagram: The Docker Client-Host Setup
 
-### 7. Budget
+### 6. Budget
  - Detailed budget of the costs of running a Jupyter Data Science Notebook Server for three months using different kinds of EC 2 instances.
+ 
+***
 
-## Step-by-step instructions
+## Step-by-step detailed instructions
 
 ### Begin on your local machine (Windows, MacOS, Linux):
-1. Launch Git Bash (I use MinGW-W64)
- - Trivia: MinGW stands for **Min**imalist **G**NU for **W**indows.
-
-Different methods to launch:
- - Start | Git Bash icon
- - Start | MinGW-W64 Project | Run Terminal
- - Cortana Search Box "git" | Git Bash
-  - You may notice that initially the command window that opens has "CMD.EXE" in the title bar; this is quickly replaced by "MinGW-W64"
- - Cortana Search Box "ming" | Run Terminal
- - Launch `mingw-w64.bat` from the `C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\` folder
-  - NO, THIS LAUNCHES "CMD.EXE" FOR SOME REASON
-   - `C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0>echo off C/WINDOWS/SYSTEM32/CMD.EXE`
-   
-   Can I safely edit the bat file?
-   ```
-   echo off
-   set PATH=C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\mingw64\bin;%PATH%
-   rem echo %PATH%
-   rem cd "C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0\mingw64\bin"
-   cd "C:\"
-   "C:\WINDOWS\system32\cmd.exe"
-   ```
-With all these options, hopefully you found a way to launch a command prompt.
+1. Launch Git Bash (I use MinGW-W64 on a Windows 10 machine)
+ - MinGW stands for **Min**imalist **G**NU for **W**indows.
 
 ### Next steps in git bash:
 
@@ -79,29 +58,29 @@ With all these options, hopefully you found a way to launch a command prompt.
 ```
 <your_name>@<your_machine> MINGW64 ~
 $ pwd
-/c/Users/karls
+/c/Users/your_name
 ```
 
-1. Enter `ls ~/.ssh` to check if an `.ssh` dir exists and, if yes, list its files:
+2. Enter `ls ~/.ssh` to check if an `.ssh` dir exists and, if it does, list its files:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ ls ~/.ssh
-ls: cannot access '/c/Users/karls/.ssh': No such file or directory
+ls: cannot access '/c/Users/your_name/.ssh': No such file or directory
 ```  
  - The output above indicates that .ssh does not exist.
  - **IMPORTANT: If .ssh already exists, DO NOT create a new one** as this can cause problems.
   - If `.ssh` already exists, use one of the key pairs that already exist in it. 
 
-1. If the .ssh directory does not already exist, create it:
+3. If the .ssh directory does not already exist, create it:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ mkdir -p .ssh
 ```
  - `-p` stands for "parents," telling `mkdir` to create a directory and any parent directories that don't already exist
 
-1. Enter `ssh-keygen` to generate a public/private rsa key pair:
+4. Enter `ssh-keygen` to generate a public/private rsa key pair:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ ssh-keygen
 ```
  - Press `Enter` to accept the default file in which to save the key
@@ -109,11 +88,11 @@ $ ssh-keygen
  - Press `Enter` to confirm no passphrase
 ```
 Generating public/private rsa key pair.
-Enter file in which to save the key (/c/Users/karls/.ssh/id_rsa):
+Enter file in which to save the key (/c/Users/your_name/.ssh/id_rsa):
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
-Your identification has been saved in /c/Users/karls/.ssh/id_rsa.
-Your public key has been saved in /c/Users/karls/.ssh/id_rsa.pub.
+Your identification has been saved in /c/Users/your_name/.ssh/id_rsa.
+Your public key has been saved in /c/Users/your_name/.ssh/id_rsa.pub.
 The key fingerprint is:
 SHA256:bbxQVVPUObbspq3a5JsaZ5tOd6/JboKuA5OHVgUiDTY karls@DESKTOP-VAQRJL8
 The key's randomart image is:
@@ -130,9 +109,9 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-1. Enter `ls -a` to list (a)ll files and folders in the home dir:
+5. Enter `ls -a` to list (a)ll files and folders in the home dir:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ ls -a
  .anaconda/
  .aws/
@@ -150,61 +129,62 @@ $ ls -a
  xgboost_install_dir/
 ```
 
-1. Enter `ls ~/.ssh` to list the files in the `.ssh` dir:
+6. Enter `ls ~/.ssh` to list the files in the `.ssh` dir:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ ls ~/.ssh
-id_rsa  id_rsa.pub
+id_rsa  id_rsa.pub          # we're confirming that these two files created
 ```
 
-1. Enter `cat ~/.ssh/id_rsa.pub` to print the public key to screen:
+7. Enter `cat ~/.ssh/id_rsa.pub` to print the public key to screen:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ cat ~/.ssh/id_rsa.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1SRG7l18hVaNRItzur0uIv9qdtpztHLa+b8vh/ESAEi2YJpCc26Ob3de1vH4/H0KTImE0fgDoRGHBH11L
 dsubSi1ocABqdy0QxA1KFFRIOqa0G3n4ipapTzEyGj580zNz8avJuBgRKL+xWWrAXKQPbXwxZuUoOjW4pi/VhK3FvTC5WTKEq4OQ+6p6w6Xea4yys68BowRP
 7aIncRtxodKS78f11EVHF2sjF7Aec9zSkHsiTBGsxt8m+M7g2xwSQMR3JyPmpfivZ24Xqy3STQOtd4w0vu24PNYWpLgn3Mx0OrCe/LIU8AKTk/BHzF4uPnF6
-9jfyYACROuONnia7CUgj karls@DESKTOP-VAQRJL8
+9jfyYACROuONnia7CUgj your_name@DESKTOP-VAQRJL8
 ```
 
-1. Enter `cp ~/.ssh/id_rsa.pub ~/Desktop/` to make a copy of the key file and save it to the Desktop
+8. Enter `cp ~/.ssh/id_rsa.pub ~/Desktop/` to make a copy of the key file and save it to the Desktop
  - Syntax: `<command> <home/path/filename_to_copy> <location_to_copy_to>`
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ cp ~/.ssh/id_rsa.pub ~/Desktop/
 ```
 
-1. Enter `ls ~/Desktop/` to check that the file was copied to the Desktop:  
+9. Enter `ls ~/Desktop/` to check that the file was copied to the Desktop:  
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ ls ~/Desktop/
-/c/Users/karls/Desktop/:
+/c/Users/your_name/Desktop/:
 '!Journaling - Shortcut.lnk'*   desktop.ini   'Microsoft Edge.lnk'*  'Visual Studio 2015.lnk'*
  Calendar.lnk*                  id_rsa.pub     OneDrive.lnk*
 'chapter 3 - Shortcut.lnk'*     Kindle.lnk*   'Steps Recorder.lnk'*
 'Chapters - Shortcut.lnk'*      Magnify.lnk*   Store.lnk*
 ```
  - We can see that the `id_rsa.pub` file was copied as expected.
-1. Copy the text of id_rsa.pub from the output of `cat ~/.ssh/id_rsa.pub` (completed a few steps back) to the clipboard:
+
+10. Select the text of id_rsa.pub from the output of `cat ~/.ssh/id_rsa.pub` (completed a few steps back) and copy it to the clipboard:
  - Be sure to select the entire output of the `cat ~/.ssh/id_rsa.pub` command above
-  - Selection must include `"ssh-rsa "` with space at beginning and `" karls@DESKTOP-VAQRJL8"` at end
+  - Selection must include `"ssh-rsa "` with space at beginning and `" <your_name>@<your_machine>"` at end
 
 ## Set up the ssh keys on GitHub
 ### These steps are done on github.com:
 
 1. Log in to your github.com account.
-1. Press the down arrow on the user icon and select **Settings**.
-1. Select **SSH and GPG keys**.
-1. Press the **New SSH Key** button.
-1. Paste the contents of the clipboard into the **Key** cell, then press the **Add SSH Key** button.
+2. Press the down arrow on your user icon and select **Settings**.
+3. Select **SSH and GPG keys**.
+4. Press the **New SSH Key** button.
+5. Paste the contents of the clipboard into the **Key** cell, then press the **Add SSH Key** button.
 
 ### These steps are done in git bash on your local machine:
 
-1. Add github to the `.ssh` list of known hosts:
+1. Add github to the `.ssh` list of known hosts using the code below:
   - Type `yes <Enter>` to confirm that you want to continue connecting.
 
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ ssh git@github.com
 The authenticity of host 'github.com (192.30.253.113)' can't be established.
 RSA key fingerprint is SHA256:1RLviKwIGOCspRomTxdCA6E5SY8nThbg6kXUpJWGl7E.
@@ -218,64 +198,67 @@ Connection to github.com closed.
 
 2) Display a list of known hosts for `.ssh`
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ less ~/.ssh/known_hosts
 ```
-Show ouptuput of this command.
+Ouptuput should include the host, GitHub, that you just added.
 
-## Set up machine on AWS
+## Set up EC2 instance on AWS
 ### These steps are done on aws.com:
 
-1. Log in to your account on AWS.com.
-1. Click on the **Services** tab and select **EC2**.
-1. Press **Key Pair**, then press **Import Key Pair**.
+1. Log in to your account on aws.com.
+2. Click on the **Services** tab and select **EC2**.
+3. Press **Key Pair**, then press **Import Key Pair**.
+
 #### Set up security protocols
-1. From the EC2 Dashboard, select **Security Groups**, then press the **Create** button.
-- We will configure the security for our machine.
-1. Give it a **Name** and a **Description**; e.g., "UCLA_class."  
-1. Create "rules" to configure the ports to be used for web traffic on our machine. Press the **Add Rule** button and create a rule for SSH:
+
+4. From the EC2 Dashboard, select **Security Groups**, then press the **Create** button.
+- You will configure the security for your machine.
+5. Give it a **Name** and a **Description**; e.g., "UCLA_class".  
+6. Create "rules" to configure the ports to be used for web traffic on your machine. Press the **Add Rule** button and create a rule for SSH:
  - Col 1: Select **SSH**
  - Port: Type **22**
  - Source: Select **Anywhere**
  - Press the **Create Rule** button
-1. Follow the same process (**Add Rule**, configure, **Create**) to specify a port for each of the following types of web traffic that we want to be able to use:
+7. Follow the same process (**Add Rule**, configure, **Create Rule**) to specify a port for each of the following types of web traffic that you want to be able to use:
 - HTTP: Port: **80**, Source: **Anywhere**
 - HTTPS: Port: **443**, Source: **Anywhere**
- - We will run Jupyter on port 443.
+ - You will run Jupyter on port 443.
+   
 - PostgreSQL: Port: **5432**, Source: **Anywhere**
 - Custom TCP: Port: **27016**, Source: **Anywhere**
- - We will run the MongoDB server on 27016.
+ - YOu can run the MongoDB server on 27016.
  - This will be machine-to-machine communication between jupyter and mongo.
- - Tip: This port number is one less than the typical 27017 port used for MongoDB. Setting is to 27016 may help reduce the number of malicious hits you experience on your server.
- - NOTE: We can specify what port to use by appending `:port_number` to the end of a URL
+ - Tip: This port number is one less than the typical 27017 port used for MongoDB. Setting it to 27016 may help reduce the number of malicious hits you experience on your server.
+ - NOTE: Later, in the browser, you can specify what port to use by appending `:port_number` to the end of a URL
   - E.g., `github.com:80`
-1. From the EC2 Dashboard, select **Instances** (may be **Running Instances**).
-1. Press the **Launch Instance** button.
-1. Choose **AMI** (Amazon Machine Image): _Ubuntu 16.04_.
+8. From the EC2 Dashboard, select **Instances** (may be **Running Instances**).
+9. Press the **Launch Instance** button.
+10. Choose **AMI** (Amazon Machine Image): _Ubuntu 16.04_.
  - A fully-configured server image.
-1. Choose **Instance Type** (hardware): _t2.micro_ (1 CPU)
-1. Configure **Instance**: _default_
-1. Add **Storage** (hard drive): Size: _20_ GiB
-1. Add **Tags**: _default_
-1. Configure **Security Group**: Press the **Select and Existing** button, then select the checkbox of the security group named above.
-1. Press ** Review and Launch**.
-1. Review: If everything looks right, press **Launch**.
-1. Select **Choose an existing key pair**, then select "id_rsa 2018_July."
-1. Press the **Acknowledge** button.
-1. Press **Launch Instance**.
-1. Press ** View Instances**.
-1. Find the instance you just created and give it a name; e.g., UCLA_DS_class.
-1. Select the checkbox at the beginning of the line, then scroll down the page and copy the instance's **public IPv4** address to the clipboard.
+11. Choose **Instance Type** (hardware): _t2.micro_ (1 CPU)
+12. Configure **Instance**: _default_
+13. Add **Storage** (hard drive): Size: _20_ GiB
+14. Add **Tags**: _default_
+15. Configure **Security Group**: Press the **Select and Existing** button, then select the checkbox of the security group named above.
+16. Press ** Review and Launch**.
+17. Review: If everything looks right, press **Launch**.
+18. Select **Choose an existing key pair**, then select "id_rsa _xxx_", your id_rsa.
+19. Press the **Acknowledge** button.
+20. Press **Launch Instance**.
+21. Press ** View Instances**.
+22. Find the instance you just created and give it a name; e.g., UCLA_DS_class.
+23. Select the checkbox at the beginning of the line, then scroll down the page and copy the instance's **public IPv4** address to the clipboard.
 
 ## CONNECT AWS MACHINE TO GIT BASH
 ### These steps are done in git bash:
 1. At the prompt, type `ssh ubuntu@`_`<ip>`_, pasting in the IP address that you saved to the clipboard in place of _`<ip>`_:
 ```
-karls@DESKTOP-VAQRJL8 MINGW64 ~
+<your_name>@<your_machine> MINGW64 ~
 $ ssh ubuntu@12.345.67.890
 ```
 
- - Press `<Enter>` and type "yes" and press Enter at the Are you sure prompt.
+ - Press `<Enter>`, type "yes", and press Enter at the _Are you sure_ prompt.
 
 ```
 The authenticity of host '18.188.45.167 (18.188.45.167)' can't be established.
@@ -305,52 +288,52 @@ To run a command as administrator (user "root"), use "sudo <command>".
 See "man sudo_root" for details.     
 ```
 
-Notice that we are now at a NEW bash prompt: **ubuntu@ip-172-31-25-201:~$**
+Notice that we are now at a NEW bash prompt that looks something like **ubuntu@ip-172-31-25-201:~$**
 
 ## Install and Configure Docker 
 ### These steps are done in git bash:
-** - Note: Generally piping straight into `sh` is bad practice security-wise, especially if we do not know or trust the shell script. In this case, I trust docker and am willing to use this shortcut, but you should decide for yourself whether you want to do this or find another more secure way to run the docker script.**
+ - **Note: Generally piping straight into `sh` as I do below is bad practice security-wise, especially if you do not know or trust the shell script. In this case, I trust Docker and am willing to use this shortcut, but you should decide for yourself whether you want to do this or find another more secure way to run the Docker script.**
 
 1. Run the Docker shell script to **install the docker engine**:
 ```
 curl -sSL https://get.docker.com | sh
 ```
 
- - `https://get.docker.com` is a shell script
+ - The contents o `https://get.docker.com` is a shell script
  - The shell script is piped ("`|`") into the `sh`(ell) program so it will be run immediately
-  - Before running the `curl` command we can view the contents of `get.docker.com` to confirm that it is a shell script by opening the URL in a browser
+  - Before running the `curl` command you can view the contents of `get.docker.com` to confirm that it is a shell script. Do this by simply opening the URL in a browser
   - Its first line, `#!/bin/sh` (hash bang, `#!`, pronounced "shebang"), confirms it is a shell script
 
-
-2) Add our ubuntu server on the AWS EC2 machine to the docker user group
+2. Add your Ubuntu server on the AWS EC2 machine to the Docker user group
 ```
 sudo usermod -aG docker ubuntu
 ```
 
-3) Disconnect from ubuntu:   
+3. Disconnect from ubuntu:   
 ```
 Press "Ctrl-D" or type "exit"
 ```
 
-4) Reconnect:
+4. Reconnect:
 ```
 ssh ubuntu@18.188.45.167
 ```
+ - Disconnecting and reconnecting forces the changes you made to take effect.
 
-5) Launch `tmux`.
- - `tmux` stands for "terminal multiplexer." It is a more stable shell than sh. In general we won't need to use tmux, but here we used it because we were proceeding slowly and sometimes sh dies silently when left sitting too long.
+5. Launch `tmux`.
+ - `tmux` stands for "terminal multiplexer." It is a more stable shell than sh. In general you won't need to use `tmux`, but here you use it because sometimes `sh` dies silently when left sitting too long.
 ```
 tmux
 ```
 
-6) Have Docker **pull jupyter** image from the docker hub.
- - Jupyter staff maintain jupyter images to be used with each flavor of docker (Linux, MacOS, etc.).
- - The jupyter staff also maintain several versions of the jupyter image. We are installing the **datascience-notebook image**, a fairly hefty version, but there are others with fewer features (no numpy/pandas/scipy, etc.) and a few that include even more features (tensorflow, pyspark).
+6. Have Docker **pull jupyter** image from the Docker Hub.
+ - Jupyter staff maintain jupyter images on Docker Hub for each flavor of Docker (Linux, MacOS, etc.).
+ - The Jupyter staff also maintain several versions of the Jupyter image. Here you will install the **datascience-notebook image**, a fairly hefty version, but there are others with fewer features (no numpy/pandas/scipy, etc.) and a few that include even more features (tensorflow, pyspark).
 ```
 docker pull jupyter/datascience-notebook
 ```
 
-7) Run the jupyter/datascience-notebook image to install and configure it:
+7. Run the jupyter/datascience-notebook image to install and configure it:
 ```
 docker run -d \
 -p 443:8888 \
@@ -358,38 +341,34 @@ docker run -d \
 jupyter/datascience-notebook
 ```
  - `-d` **d**etached mode 
- - `-p` 
- - `443:8888` This command attaches port 8888 from the docker container to port 443 on our host. 
+ - `-p` **p**ort configuration
+ - `443:8888` This command attaches port 8888 from the docker container to port 443 on your EC2 host. 
  - `-v` means "mounting a **v**olume".
  - `/home/ubuntu:/home/jovyan` This command attaches `/home/ubuntu` on the EC2 host to `/home/jovyan` in the docker container. 
 
-TK  
 Additional notes:
- - docker ps
- - docker stop jovyal XXX # kill
- - docker ps -a
- - ls -la
+ - docker ps means "list docker processes"
+ - docker ps -a "list all docker processes", including stopped ones
+ - docker stop jovyan XXX # kill
+ - ls -la "list in long form"
  - docker logs _containerID_ (first few chars, enough to be unique)
  - docker exec _containerID_ # jupyter nb list
 
 ### Next steps in Web browser:
 
-1. To configure the Jupyter page so we can use it:
+1. To configure the Jupyter page so you can use it:
  - From AWS account, copy the public ip address to clipboard as before. Append `:443` to the end; e.g., `192.88.78.68:443`
  - Paste into **Password or Token** textbox on jupyter page.
-1. Test jupyter by creating a new notebook and saving it.
+2. Test jupyter by creating a new notebook and saving it.
  - It should appear in the jupyter file list.
-1. In bash, run `ls` to see the file there also.
+3. In bash, run `ls` to see the file there also.
 
 ### You're ready to use your EC2 machine!
 
 ### When you are finished using your EC2 machine, be sure to terminate the instance
-If you don't you may run up unnecessary charges on your AWS bill! Even though we set up a free instance, if we set up too many and ran them for too many hours we would use up the free hours and start to incur charges.
+If you don't you may run up unnecessary charges on your AWS bill! Even though you set up a free instance, if you set up too many instances and run them for too many hours you would use up the free hours and start to incur charges.
 1. In AWS, terminate the machine instance.
  - Select **Instance**, **Actions** button, **Instance State**, **Terminate**.
-
-### How to create an alias in bash
-TK
 
 ### Obtaining the correct Docker image
 
@@ -399,7 +378,7 @@ See `http://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#
 Using one of the **Jupyter Docker Stacks** requires two choices:
 
 1. Which Docker image you wish to use
-1. How you wish to start Docker containers from that image
+2. How you wish to start Docker containers from that image
 
  - jupyter/base-notebook is a small image supporting the options common across all core stacks. It is the basis for all other stacks.
  - jupyter/minimal-notebook adds command line tools useful when working in Jupyter applications.
@@ -409,9 +388,6 @@ Using one of the **Jupyter Docker Stacks** requires two choices:
  - jupyter/datascience-notebook includes libraries for data analysis from the Julia, Python, and R communities.
  - jupyter/pyspark-notebook includes Python support for Apache Spark, optionally on Mesos.
  - jupyter/all-spark-notebook includes Python, R, and Scala support for Apache Spark, optionally on Mesos.
-
-TK: image of the relationship of these in images folder
-
 
 ### Running the correct Docker image as a container
  - See above step by step instructions
@@ -666,7 +642,7 @@ Dedicated host on-demand pricing:
 
 ### Related Costs
 
-like data transfer, Elastic IP addresses, and EBS Optimized Instances, visit the On-Demand pricing page.
+Like data transfer, Elastic IP addresses, and EBS Optimized Instances, visit the On-Demand pricing page.
 
 Data Transfer IN To Amazon EC2 From Internet
  - All data transfer in	0.00 per GB
